@@ -1,0 +1,70 @@
+# Logical model registry. Confirm TODO model tags before first use.
+servers:
+  lead:
+    ollama_base_url: http://127.0.0.1:11435
+    openai_base_url: http://127.0.0.1:11435/v1
+  worker:
+    ollama_base_url: http://127.0.0.1:11436
+    openai_base_url: http://127.0.0.1:11436/v1
+
+models:
+  ornith_lead:
+    display_name: Ornith-1.0-35B Q4_K_M
+    ollama_model: hf.co/deepreinforce-ai/Ornith-1.0-35B-GGUF:Q4_K_M
+    roles: [lead, orchestrator, final_judge, ambiguous_router]
+    server: lead
+    context: {supported_max: TODO, default: 65536, operational_max: 65536}
+    resource_class: cpu_persistent
+    escalation_level: lead
+    runtime: {backend: ollama, execution: cpu, persistent: true}
+    resources: {resident_ram_gb_approx: 22.5, target_gpu_vram_gb: 0, requires_gpu: false}
+  ministral_reasoner:
+    display_name: Ministral 3 14B
+    ollama_model: ministral-3:14b
+    roles: [reasoner, architect, critic, failure_analyst]
+    server: worker
+    context: {supported_max: TODO, default: 16384, operational_max: 16384}
+    resource_class: gpu_resident_while_active
+    escalation_level: reasoning
+    runtime: {backend: ollama, execution: gpu_worker, persistent: false}
+    resources: {requires_gpu: true, estimated_vram_gb: 10.5, heavy_cpu_offload: false}
+  deepseek_fast_coder:
+    display_name: DeepSeek-Coder-V2-Lite
+    ollama_model: TODO
+    roles: [turbo_coder, local_code, simple_bugfix, tests, utilities]
+    server: worker
+    context: {supported_max: TODO, default: 32768, operational_max: 32768}
+    resource_class: gpu_worker
+    escalation_level: fast
+    runtime: {backend: ollama, execution: gpu_worker, persistent: false}
+    resources: {requires_gpu: true, estimated_vram_gb: TODO, heavy_cpu_offload: false}
+  iquest_repo_coder:
+    display_name: IQuest-Coder-V1-14B-Instruct
+    ollama_model: TODO
+    roles: [repo_coder, multi_file, repository_exploration, implementation, debugging]
+    server: worker
+    context: {supported_max: TODO, default: 32768, operational_max: 32768}
+    resource_class: gpu_worker
+    escalation_level: normal
+    runtime: {backend: ollama, execution: gpu_worker, persistent: false}
+    resources: {requires_gpu: true, estimated_vram_gb: TODO, heavy_cpu_offload: false}
+  qwen35_heavy_fast:
+    display_name: Qwen3.6-35B-A3B Q2_K
+    ollama_model: qwen36-35b-a3b-heavy-fast:latest
+    roles: [heavy_fast, hard_code, difficult_debugging, long_agent_loop]
+    server: worker
+    context: {supported_max: TODO, default: 32768, operational_max: 32768}
+    resource_class: gpu_worker_cpu_offload
+    escalation_level: high
+    runtime: {backend: ollama, execution: gpu_worker, persistent: false, cpu_ram_offload_allowed: true, num_gpu: 34}
+    resources: {requires_gpu: true, estimated_vram_gb: 11.0, heavy_cpu_offload: true, target_gpu_vram_gb_max: 11.0}
+  qwen27_heavy_quality:
+    display_name: Qwen3.6-27B Q4_K_M
+    ollama_model: qwen36-27b-heavy-quality:latest
+    roles: [heavy_quality, very_hard_code, critical_code, final_coding_escalation]
+    server: worker
+    context: {supported_max: TODO, default: 32768, operational_max: 32768}
+    resource_class: gpu_worker_cpu_offload
+    escalation_level: critical
+    runtime: {backend: ollama, execution: gpu_worker, persistent: false, cpu_ram_offload_allowed: true, num_gpu: 39}
+    resources: {requires_gpu: true, estimated_vram_gb: 11.0, heavy_cpu_offload: true, target_gpu_vram_gb_max: 11.0}

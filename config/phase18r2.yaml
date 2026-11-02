@@ -1,0 +1,13 @@
+schema_version: 1
+
+research_semantic_contract_reliability_v1:
+  max_semantic_attempts: 2
+  max_previous_response_chars: 8192
+  forbid_automatic_contract_lifting: true
+  require_frozen_phase18_parser: true
+  require_phase18r_transport_boundary: true
+
+  live_acceptance:
+    plan_cases: 1
+    synthesis_cases: 1
+    min_success_rate: 1.0

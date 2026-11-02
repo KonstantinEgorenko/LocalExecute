@@ -1,0 +1,26 @@
+schema_version: 1
+research_evidence_integrity_v1:
+  expected_parent_commit: 439d9a5
+  current_metric_freshness_hours: 168
+  max_revision_evidence_items: 24
+  max_relevance_candidates: 80
+  max_relevance_selected: 24
+  bm25_k1: 1.5
+  bm25_b: 0.75
+  browser_escalation_min_text_chars: 700
+  github_primary_enabled: true
+  github_primary_artifacts:
+  - repository_metadata
+  - readme
+  - license
+  - license_context
+  entity_binding:
+    reject_other_github_repositories: true
+    exact_repository_required_for:
+    - LICENSE
+    - CURRENT_METRIC
+  remediation:
+    require_new_document_for_document_independence: true
+    require_fresh_primary_for_current_metric: true
+    fail_closed_on_unclosed_defect: true
+    fallback_action: DROP

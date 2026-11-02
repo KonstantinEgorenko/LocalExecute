@@ -1,0 +1,67 @@
+schema_version: 1
+autonomous_workflow_v1:
+  max_workflow_steps: 48
+  max_recovery_cycles_per_todo: 2
+  max_context_expansions_per_todo: 2
+  max_dependency_outcomes: 8
+  max_optional_repo_artifacts: 12
+  max_verified_outcome_chars: 12000
+  serialize_gpu_execution: true
+  require_root_goal: true
+  require_project_snapshot: true
+  require_dependency_outcomes: true
+  require_deterministic_verification: true
+  require_fresh_recovery_workspace: true
+  context_profiles:
+    deepseek_micro:
+      model_context_tokens: 4096
+      initial_pack_tokens: 1400
+      max_items: 10
+      max_bytes: 32768
+      feedback_reserve_tokens: 1200
+      output_reserve_tokens: 768
+      safety_reserve_tokens: 600
+    iquest_repo:
+      model_context_tokens: 16384
+      initial_pack_tokens: 6000
+      max_items: 16
+      max_bytes: 131072
+      feedback_reserve_tokens: 6000
+      output_reserve_tokens: 1024
+      safety_reserve_tokens: 2000
+    qwen38_heavy_fast:
+      model_context_tokens: 16384
+      initial_pack_tokens: 6000
+      max_items: 16
+      max_bytes: 131072
+      feedback_reserve_tokens: 6000
+      output_reserve_tokens: 1024
+      safety_reserve_tokens: 2000
+    qwen36_heavy_quality:
+      model_context_tokens: 16384
+      initial_pack_tokens: 5200
+      max_items: 14
+      max_bytes: 114688
+      feedback_reserve_tokens: 6200
+      output_reserve_tokens: 1024
+      safety_reserve_tokens: 2400
+    ministral_reasoner:
+      model_context_tokens: 16384
+      initial_pack_tokens: 6500
+      max_items: 18
+      max_bytes: 147456
+      feedback_reserve_tokens: 5800
+      output_reserve_tokens: 1024
+      safety_reserve_tokens: 2200
+    ornith_lead:
+      model_context_tokens: 65536
+      initial_pack_tokens: 24000
+      max_items: 32
+      max_bytes: 524288
+      feedback_reserve_tokens: 24000
+      output_reserve_tokens: 8192
+      safety_reserve_tokens: 8000
+  live_acceptance:
+    workflow_cases: 1
+    min_workflow_success_rate: 1.0
+    max_infrastructure_invalid_runs: 0

@@ -1,0 +1,19 @@
+schema_version: 1
+ornith_gpu_burst_v1:
+  enabled_env: SWARM_ORNITH_GPU_BURST
+  root_env: SWARM_ORNITH_GPU_ROOT
+  lead_base_url: http://127.0.0.1:11435
+  worker_base_url: http://127.0.0.1:11436
+  external_base_urls:
+  - http://127.0.0.1:11434
+  model_tag: hf.co/deepreinforce-ai/Ornith-1.0-35B-GGUF:Q4_K_M
+  gpu_num_gpu: 20
+  cpu_num_gpu: 0
+  num_ctx: 65536
+  memory_policy: MODEL_ONLY_HYBRID_GPU_RAM
+  min_free_vram_mib: 0
+  opportunistic_acquire_timeout_seconds: 0.0
+  placement_timeout_seconds: 180.0
+  status_poll_interval_seconds: 0.2
+  reclaim_known_idle_workers: true
+  fail_closed_cleanup: true

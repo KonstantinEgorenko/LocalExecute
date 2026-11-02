@@ -1,0 +1,16 @@
+gpu_heavy_guard_v1:
+  enabled_env: SWARM_GPU_HEAVY_GUARD
+  root_env: SWARM_GPU_HEAVY_ROOT
+  lock_path_env: GPU_HEAVY_LOCK_PATH
+  default_lock_path: 'C:/ProgramData/LocalExecute/locks/gpu_heavy.lock'
+  acquire_timeout_seconds: 1800
+  poll_interval_seconds: 0.05
+  worker_server_urls:
+    - http://127.0.0.1:11436
+  guarded_paths:
+    - /api/chat
+    - /api/generate
+  status_paths:
+    - /api/ps
+    - /api/tags
+  fail_closed: true

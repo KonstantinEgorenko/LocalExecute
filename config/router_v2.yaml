@@ -1,0 +1,52 @@
+schema_version: 1
+router_v2:
+  resource_policy:
+    hard_vram_limit_gb: 11.0
+    minimum_free_vram_reserve_gb: 0.75
+    warm_profile_bonus: 0.035
+    maximum_warm_bonus_score_gap: 0.06
+  scoring:
+    success_prior_weight: 0.56
+    task_fit_weight: 0.34
+    latency_penalty_weight: 0.07
+    load_penalty_weight: 0.03
+    failure_penalty_per_prior_failure: 0.10
+    max_failure_penalty: 0.30
+  expected_latency_ms:
+    deepseek_micro: 1800
+    iquest_repo: 6000
+    qwen38_heavy_fast: 80000
+    qwen36_heavy_quality: 85000
+  initial_success_priors:
+    deepseek_micro:
+      simple_edit: 0.95
+      single_file_bug: 0.78
+      failure_retry: 0.62
+      parallel_safe: 0.78
+      default: 0.35
+    iquest_repo:
+      simple_edit: 0.90
+      single_file_bug: 0.76
+      multi_file_change: 0.74
+      repo_navigation: 0.72
+      refactor: 0.92
+      failure_retry: 0.76
+      dependency_dag: 0.72
+      parallel_safe: 0.90
+      hard_debugging: 0.58
+      default: 0.55
+    qwen38_heavy_fast:
+      multi_file_change: 0.88
+      refactor: 0.84
+      hard_debugging: 0.92
+      failure_escalation: 0.92
+      dependency_dag: 0.82
+      repo_navigation: 0.66
+      default: 0.70
+    qwen36_heavy_quality:
+      multi_file_change: 0.96
+      refactor: 0.95
+      hard_debugging: 0.98
+      failure_escalation: 0.98
+      dependency_dag: 0.94
+      default: 0.85

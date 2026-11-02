@@ -1,0 +1,18 @@
+schema_version: 1
+failure_recovery_v2:
+  diagnosis_model_id: ministral_reasoner
+  replan_model_id: ornith_lead
+  max_diagnosis_model_attempts: 2
+  max_replan_model_attempts: 2
+  max_replans_per_task: 2
+  min_diagnosis_confidence: 0.45
+  max_context_tokens: 16384
+  max_target_files: 8
+  max_evidence_items: 32
+  max_response_bytes: 65536
+  require_fresh_workspace: true
+  require_deterministic_verification: true
+  live_acceptance:
+    recovery_cases: 2
+    min_recovered_rate: 0.5
+    max_infrastructure_invalid_runs: 0

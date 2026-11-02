@@ -1,0 +1,22 @@
+schema_version: 1
+research_runtime_hardening_v1:
+  synthesis:
+    max_selected_sources: 10
+    max_selected_evidence: 14
+    max_excerpt_chars_per_evidence: 700
+    min_excerpt_chars_per_evidence: 120
+    max_synthesis_user_utf8_bytes: 24000
+    max_retry_previous_response_chars: 2048
+    preserve_primary_first: true
+    preserve_source_diversity: true
+    preserve_topic_coverage: true
+  lead:
+    require_cpu_execution: true
+    expected_num_gpu: 0
+    disable_thinking_for_json_contracts: true
+    request_timeout_seconds: 900
+  live_acceptance:
+    lead_base_url: http://127.0.0.1:11435
+    cpu_probe_timeout_seconds: 900
+    research_timeout_seconds: 5400
+    remediation_timeout_seconds: 28800

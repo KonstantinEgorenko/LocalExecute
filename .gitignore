@@ -1,0 +1,17 @@
+# Local environments, runtime evidence and generated artifacts are not source.
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+build/
+dist/
+*.egg-info/
+state/
+logs/
+.swarm-worktrees/
+.env
+.env.*
+models/
+*.gguf
+*.safetensors

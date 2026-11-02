@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "localexecute"
+version = "0.1.0"
+description = "LocalExecute — Autonomous Agent Harness"
+requires-python = ">=3.11"
+license = "Apache-2.0"
+license-files = ["LICENSE", "NOTICE"]
+authors = [{name = "Konstantin Egorenko"}]
+dependencies = ["PyYAML>=6.0"]
+
+[project.scripts]
+localexecute = "localexecute.cli:main"
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["harness*", "localexecute*"]
+namespaces = false
+
+[tool.setuptools.package-data]
+"harness.model_runtime" = ["bootstrap/*.py"]
+"harness.phase20v" = ["bootstrap/*.py"]

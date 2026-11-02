@@ -1,0 +1,37 @@
+hardware:
+  system:
+    os: Windows 11
+    ram_total_gb: 64
+  gpu:
+    model: NVIDIA RTX 4070 Ti Super
+    vram_total_gb: 16
+
+worker_vram:
+  soft_target_gb: 10.5
+  hard_limit_gb: 11.0
+  min_free_after_load_gb: 0.75
+
+resource_locks:
+  gpu_worker_mutex:
+    max_active: 1
+    applies_to: [ministral_reasoner, deepseek_fast_coder, iquest_repo_coder, qwen35_heavy_fast, qwen27_heavy_quality]
+  cpu_bandwidth_mutex:
+    prohibits_concurrent_generation:
+      - [ornith_lead, qwen35_heavy_fast]
+      - [ornith_lead, qwen27_heavy_quality]
+    loaded_together_allowed: true
+
+policies:
+  ornith_resident_ram_gb_approx: 22.5
+  heavy_workers_cpu_ram_offload_allowed: true
+  concurrent_ornith_and_heavy_generation_allowed: false
+
+resource_classes:
+  cpu_persistent:
+    description: Persistent CPU-only lead model.
+  gpu_resident_while_active:
+    description: GPU-resident worker while active; only one GPU worker may generate at a time.
+  gpu_worker:
+    description: GPU worker; only one may generate at a time.
+  gpu_worker_cpu_offload:
+    description: GPU worker with permitted system-RAM CPU offload.

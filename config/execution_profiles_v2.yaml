@@ -1,0 +1,102 @@
+schema_version: 1
+profiles:
+  deepseek_micro:
+    model_id: deepseek_fast_coder
+    model_tag: deepseek-coder-v2:16b
+    server_id: worker
+    role: micro_editor
+    context_tokens: 4096
+    num_gpu: null
+    think: null
+    num_predict: 768
+    temperature: 0.0
+    generation_timeout_seconds: 300
+    estimated_vram_gb: 10.0
+    calibration_ref: state/evaluation/router_v1_live/calibration.json#models.deepseek_fast_coder
+    max_productive_calls: 2
+    finalization_grace_calls: 1
+    max_tool_calls: 2
+    max_protocol_failures: 1
+    max_tool_failures: 1
+    allowed_tools:
+    - LIST_FILES
+    - READ_TEXT
+    - SEARCH_TEXT
+    - CREATE_TEXT
+    - WRITE_TEXT
+    - REPLACE_TEXT
+    - DELETE_FILE
+  iquest_repo:
+    model_id: iquest_repo_coder
+    model_tag: hf.co/xhxlb/IQuest-Coder-V1-14B-Instruct-GGUF:Q4_K_M
+    server_id: worker
+    role: repo_coder
+    context_tokens: 16384
+    num_gpu: null
+    think: false
+    num_predict: 1024
+    temperature: 0.0
+    generation_timeout_seconds: 600
+    estimated_vram_gb: 10.6
+    calibration_ref: state/evaluation/router_v1_live/calibration.json#models.iquest_repo_coder
+    max_productive_calls: 6
+    finalization_grace_calls: 1
+    max_tool_calls: 6
+    max_protocol_failures: 2
+    max_tool_failures: 3
+    allowed_tools:
+    - LIST_FILES
+    - READ_TEXT
+    - SEARCH_TEXT
+    - CREATE_TEXT
+    - WRITE_TEXT
+    - REPLACE_TEXT
+    - DELETE_FILE
+  qwen38_heavy_fast:
+    model_id: qwen38_heavy_fast
+    model_tag: hf.co/lmstudio-community/Qwen3.8-27B-GGUF:Q4_K_M
+    server_id: worker
+    role: heavy_fast
+    context_tokens: 16384
+    num_gpu: 41
+    think: false
+    num_predict: 1024
+    temperature: 0.0
+    generation_timeout_seconds: 900
+    estimated_vram_gb: 11.0
+    calibration_ref: state/evaluation/router_v1_live/qwen38_calibration.json#selected
+    max_productive_calls: 6
+    finalization_grace_calls: 1
+    max_tool_calls: 6
+    max_protocol_failures: 2
+    max_tool_failures: 3
+    allowed_tools:
+    - LIST_FILES
+    - READ_TEXT
+    - SEARCH_TEXT
+    - CREATE_TEXT
+    - WRITE_TEXT
+    - REPLACE_TEXT
+    - DELETE_FILE
+  qwen36_heavy_quality:
+    model_id: qwen27_heavy_quality
+    model_tag: qwen36-27b-heavy-quality:latest
+    server_id: worker
+    role: heavy_quality
+    context_tokens: 16384
+    num_gpu: 39
+    think: false
+    num_predict: 1024
+    temperature: 0.0
+    generation_timeout_seconds: 900
+    estimated_vram_gb: 10.5
+    calibration_ref: state/evaluation/router_v1_live/calibration.json#models.qwen27_heavy_quality
+    max_productive_calls: 6
+    finalization_grace_calls: 1
+    max_tool_calls: 6
+    max_protocol_failures: 2
+    max_tool_failures: 3
+    allowed_tools:
+    - READ_TEXT
+    - WRITE_TEXT
+    - REPLACE_TEXT

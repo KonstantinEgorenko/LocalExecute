@@ -1,0 +1,39 @@
+schema_version: 1
+worktree_docker_sandbox_v1:
+  image:
+    default: python:3.11-slim
+    allowed:
+    - python:3.11-slim
+  container:
+    name_prefix: swarm-sandbox-
+    workspace_mount: /workspace
+    workdir: /workspace
+    command_timeout_seconds: 120
+    stop_timeout_seconds: 10
+    max_stdout_chars: 60000
+    max_stderr_chars: 60000
+  resources:
+    memory: 2g
+    memory_swap: 2g
+    cpus: 2.0
+    pids_limit: 128
+    tmpfs_size: 512m
+  security:
+    rootfs_read_only: true
+    cap_drop_all: true
+    no_new_privileges: true
+    forbid_privileged: true
+    forbid_docker_socket: true
+    forbid_host_network: true
+    forbid_host_pid: true
+    require_external_worktree: true
+    require_linked_git_worktree: true
+  network:
+    default: NONE
+    allow_package_install_profile: false
+    research_proxy_configured: false
+  recovery:
+    max_restarts_per_sandbox: 2
+  live_acceptance:
+    image: python:3.11-slim
+    require_docker_engine: true

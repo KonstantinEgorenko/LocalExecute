@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "models": {
+    "ministral_reasoner": {
+      "model_tag": "ministral-3:14b",
+      "status": "CALIBRATED",
+      "num_gpu": 40,
+      "context_default": 16384,
+      "observed_vram_mib": 9975.09,
+      "admission_vram_mib": 10220.0,
+      "free_after_load_mib": 4572.0,
+      "gpu_total_mib": 16376.0,
+      "min_free_vram_mib": 1536,
+      "max_worker_vram_mib": 11264,
+      "attempts": [],
+      "updated_at_unix": 0
+    },
+    "deepseek_fast_coder": {
+      "model_tag": "deepseek-coder-v2:16b",
+      "status": "CALIBRATED",
+      "num_gpu": 15,
+      "context_default": 32768,
+      "observed_vram_mib": 10666.0,
+      "admission_vram_mib": 10907.0,
+      "free_after_load_mib": 4116.0,
+      "gpu_total_mib": 16376.0,
+      "min_free_vram_mib": 1536,
+      "max_worker_vram_mib": 11264,
+      "attempts": [],
+      "updated_at_unix": 0
+    },
+    "iquest_repo_coder": {
+      "model_tag": "hf.co/xhxlb/IQuest-Coder-V1-14B-Instruct-GGUF:Q4_K_M",
+      "status": "CALIBRATED",
+      "num_gpu": 26,
+      "context_default": 32768,
+      "observed_vram_mib": 10749.52,
+      "admission_vram_mib": 10991.0,
+      "free_after_load_mib": 4032.0,
+      "gpu_total_mib": 16376.0,
+      "min_free_vram_mib": 1536,
+      "max_worker_vram_mib": 11264,
+      "attempts": [],
+      "updated_at_unix": 0
+    },
+    "qwen35_heavy_fast": {
+      "model_tag": "qwen36-35b-a3b-heavy-fast:latest",
+      "status": "CALIBRATED",
+      "num_gpu": 34,
+      "context_default": 32768,
+      "observed_vram_mib": 10980.19,
+      "admission_vram_mib": 11229.0,
+      "free_after_load_mib": 3794.0,
+      "gpu_total_mib": 16376.0,
+      "min_free_vram_mib": 1536,
+      "max_worker_vram_mib": 11264,
+      "attempts": [],
+      "updated_at_unix": 0
+    },
+    "qwen27_heavy_quality": {
+      "model_tag": "qwen36-27b-heavy-quality:latest",
+      "status": "CALIBRATED",
+      "num_gpu": 39,
+      "context_default": 32768,
+      "observed_vram_mib": 10941.07,
+      "admission_vram_mib": 11189.0,
+      "free_after_load_mib": 3834.0,
+      "gpu_total_mib": 16376.0,
+      "min_free_vram_mib": 1536,
+      "max_worker_vram_mib": 11264,
+      "attempts": [],
+      "updated_at_unix": 0
+    },
+    "qwen38_heavy_fast": {
+      "model_tag": "hf.co/lmstudio-community/Qwen3.8-27B-GGUF:Q4_K_M",
+      "status": "CALIBRATED",
+      "num_gpu": 41,
+      "context_default": 16384,
+      "observed_vram_mib": 10703.89,
+      "admission_vram_mib": 11036.0,
+      "free_after_load_mib": 3987.0,
+      "gpu_total_mib": 16376.0,
+      "min_free_vram_mib": 1536,
+      "max_worker_vram_mib": 11264,
+      "attempts": [],
+      "updated_at_unix": 0
+    }
+  }
+}

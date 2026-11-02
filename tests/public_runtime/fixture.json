@@ -1,0 +1,7 @@
+{
+  ".gitignore": "__pycache__/\n.pytest_cache/\n*.pyc\n",
+  "pytest.ini": "[pytest]\npythonpath = .\ntestpaths = tests\n",
+  "billing.py": "from decimal import Decimal, ROUND_HALF_UP\n\ndef money(value):\n    return Decimal(str(value)).quantize(Decimal(\"0.01\"), rounding=ROUND_HALF_UP)\n\ndef subtotal(items):\n    total = Decimal(0)\n    for price, quantity in items:\n        if quantity < 0:\n            raise ValueError(\"negative quantity\")\n        total += Decimal(str(price)) * quantity\n    return total\n\ndef invoice_total(items, discount=0, tax=0):\n    \"\"\"Rates are fractions; discount first, then tax; round once at the end.\"\"\"\n    if not 0 <= discount <= 1 or tax < 0:\n        raise ValueError(\"invalid rate\")\n    base = subtotal(items)\n    return money(base * (1 - Decimal(str(discount))) + base * Decimal(str(tax)))\n\ndef format_invoice(items, discount=0, tax=0):\n    return \"$\" + str(invoice_total(items, discount, tax))\n",
+  "README.md": "Invoice API takes (price, quantity) pairs; discounts precede tax, ROUND_HALF_UP once on final total. Keep validation and formatting.\n",
+  "tests/test_billing.py": "from billing import invoice_total, format_invoice\ndef test_existing():\n    assert str(invoice_total([(10,2)])) == \"20.00\"\n    assert format_invoice([(2.5,1)]) == \"$2.50\"\n"
+}

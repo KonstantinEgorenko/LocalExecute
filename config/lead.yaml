@@ -1,0 +1,8 @@
+﻿lead:
+  model_id: ornith_lead
+  schema_version: 1
+  max_todos: 12
+  max_dependencies_per_todo: 6
+  max_lead_calls: 2
+  timeout_seconds: 120
+  output_tokens: 8192

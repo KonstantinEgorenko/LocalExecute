@@ -1,0 +1,3 @@
+schema_version: 1
+protocol_reliability_v1:
+  worker_min_free_after_load_gb: 1.5

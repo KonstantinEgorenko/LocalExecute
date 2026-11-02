@@ -1,0 +1,193 @@
+executor:
+  discovery_timeout_seconds: 5
+  lifecycle_timeout_seconds: 300
+  generation_timeout_seconds: 900
+  lifecycle_verification_timeout_seconds: 10
+  lifecycle_verification_poll_interval_seconds: 0.2
+
+retry_and_anti_loop:
+  policy_status: initial_tunable_v0_1
+  prevent_infinite_loops: true
+  max_attempts_same_fast_worker: 2
+  max_attempts_same_heavy_worker: 2
+  # AgentLoop uses one model turn per TOOL action. 12 tools + FINAL +
+  # bounded repair turns require a worker-call budget above the legacy 6.
+  max_total_worker_calls_per_task: 16
+  max_escalations_per_task: 3
+  max_replans_per_task: 2
+
+verification:
+  tests:
+    required_if_available: true
+    failure_is_blocking: true
+  lint:
+    required_if_configured: true
+    failure_is_blocking: true
+  type_checks:
+    required_if_configured: true
+    failure_is_blocking: true
+  build:
+    required_if_configured: true
+    failure_is_blocking: true
+  runtime:
+    trusted_worktrees_only: true
+    trusted_python_venv: ".venv"
+    require_candidate_dirty: true
+    fail_fast: false
+    max_gates: 16
+    max_gate_timeout_seconds: 600
+    max_total_timeout_seconds: 1800
+    max_output_bytes: 262144
+    max_source_bytes: 2097152
+  command_catalog:
+    pytest:
+      gate_type: TESTS
+      argv: ["{python}", "-m", "pytest", "-q", "-p", "no:cacheprovider"]
+      timeout_seconds: 600
+      expected_exit_codes: [0]
+    unittest:
+      gate_type: TESTS
+      argv: ["{python}", "-m", "unittest", "discover", "-v"]
+      timeout_seconds: 600
+      expected_exit_codes: [0]
+
+critic:
+  model: ministral_reasoner
+  max_model_attempts: 2
+  max_evidence_items: 32
+  max_diff_bytes: 131072
+  max_artifact_bytes: 131072
+  max_prompt_bytes: 262144
+  max_response_bytes: 65536
+  temperature: 0.0
+  keep_alive: -1
+  enforce_no_workspace_mutation: true
+
+judge:
+  model: ornith_lead
+  max_model_attempts: 2
+  max_diff_bytes: 131072
+  max_prompt_bytes: 262144
+  max_response_bytes: 65536
+  timeout_seconds: 180
+  output_tokens: 4096
+  enforce_no_workspace_mutation: true
+  cannot_override:
+    - failing_tests
+    - failing_build
+    - failing_configured_type_checks
+    - failing_configured_lint
+    - deterministic_safety_invariant_checks
+  evaluates:
+    - user_intent_alignment
+    - architecture
+    - maintainability
+    - missed_edge_cases
+    - unnecessary_changes
+    - overall_solution_quality
+
+state:
+  retain_git_diff: true
+  retain_test_results: true
+  record_escalation_reason: true
+
+escalation_reasons:
+  - verification_failed
+  - worker_low_confidence
+  - repeated_same_failure
+  - context_too_large
+  - complexity_reclassified
+  - tool_failure
+  - judge_rejected
+  - critical_task
+  - manual_override
+
+future_state_telemetry_fields:
+  - task_id
+  - task_type
+  - complexity
+  - chosen_model
+  - router_confidence
+  - routing_reason
+  - model_load_time
+  - prompt_tokens
+  - output_tokens
+  - tokens_per_second
+  - files_read
+  - files_modified
+  - tool_calls
+  - tests_before
+  - tests_after
+  - retry_count
+  - escalation_count
+  - escalation_reason
+  - judge_result
+  - final_success
+
+calibration:
+  minimum_available_ram_gb: 20
+  require_clean_worker: true
+  unload_after_run: true
+  generation_prompt: "Reply with exactly: CALIBRATION_OK"
+
+
+agent_loop:
+  max_tool_calls: 12
+  max_same_tool_call: 2
+  max_tool_failures: 3
+  max_protocol_failures: 2
+  max_message_bytes: 122880
+  max_tool_feedback_bytes: 65536
+
+worktree:
+  branch_prefix: "swarm/candidate"
+  require_clean_source: true
+  protect_same_git_common_dir: true
+  allow_model_commands: false
+  max_active_leases: 8
+
+repository_intelligence:
+  trusted_worktrees_only: true
+  enforce_no_workspace_mutation: true
+  max_files: 5000
+  max_file_bytes: 524288
+  max_total_bytes: 33554432
+  max_symbols_per_file: 2000
+  max_results: 24
+  max_context_files: 12
+  max_context_bytes: 262144
+  excluded_directories:
+    - .git
+    - .venv
+    - __pycache__
+    - .pytest_cache
+    - .mypy_cache
+    - .ruff_cache
+    - node_modules
+    - dist
+    - build
+
+scheduler:
+  max_parallel_todos: 2
+  max_active_claims: 8
+  max_attempts_per_todo: 6
+  claim_ttl_seconds: 900
+  resource_lease_ttl_seconds: 900
+  lock_timeout_seconds: 10
+  serialize_unknown_working_sets: true
+  require_judge_report: true
+  allow_parallel_conflict_free: true
+
+evaluation:
+  store_dir: state/evaluation
+  max_cases_per_suite: 200
+  max_records_per_run: 5000
+  max_tags_per_case: 16
+  max_repetitions_per_case: 20
+  max_models_per_case: 8
+  latency_percentiles:
+    - 50
+    - 95
+  require_verified_truth: true
+  require_router_choice_in_candidates: true
+  allow_partial_runs: false

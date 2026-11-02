@@ -1,0 +1,62 @@
+# Declarative policy consumed by Router V1; no learned routing or model invocation.
+routing:
+  strategy: rule_based_score_based
+  ornith_fallback_router: ambiguous_decisions_only
+  file_count_is_hint_not_hard_rule: true
+
+task_profile:
+  fields: [task_type, complexity, scope, reasoning_need, repo_exploration_need, tool_depth, context_estimate, testability, risk, router_confidence, previous_failures, resource_state]
+
+branches:
+  reasoning:
+    task_types: [architecture, reasoning, critique, failure_analysis]
+    workers: [ministral_reasoner]
+  coding:
+    task_types: [code, bugfix, refactor, tests, utility, repo_exploration, multi_file_implementation]
+    workers: [deepseek_fast_coder, iquest_repo_coder, qwen35_heavy_fast, qwen27_heavy_quality]
+
+initial_routes:
+  reasoning_architecture_critique_failure_analysis: ministral_reasoner
+  simple_local_code: deepseek_fast_coder
+  normal_repository_multi_file_work: iquest_repo_coder
+  hard_code: qwen35_heavy_fast
+  very_hard_critical_or_failed_heavy: qwen27_heavy_quality
+
+model_profiles:
+  ministral_reasoner: {branch: side_reasoning, preferred: {task_type: [reasoning, architecture, critique, failure_analysis]}}
+  deepseek_fast_coder: {preferred: {complexity: [trivial, normal], scope: [local], repo_exploration_need: [low]}}
+  iquest_repo_coder: {preferred: {complexity: [normal, hard], scope: [multi_file, module, repository], repo_exploration_need: [medium, high]}}
+  qwen35_heavy_fast: {preferred: {complexity: [hard]}}
+  qwen27_heavy_quality: {preferred: {complexity: [very_hard, critical]}}
+
+escalation_graph:
+  deepseek_fast_coder: [iquest_repo_coder, qwen35_heavy_fast]
+  iquest_repo_coder: [qwen35_heavy_fast]
+  qwen35_heavy_fast: [qwen27_heavy_quality]
+  qwen27_heavy_quality: [stop, ornith_judgement, failure_report]
+  ministral_reasoner: []
+
+router_v1:
+  confidence_threshold: 0.30
+  candidate_order: [ministral_reasoner, deepseek_fast_coder, iquest_repo_coder, qwen35_heavy_fast, qwen27_heavy_quality]
+  weights:
+    base: 10
+    resource_ready: 5
+    task_type_match: 45
+    complexity_match: 25
+    scope_match: 20
+    reasoning_need_match: 20
+    repo_need_match: 20
+    high_risk_heavy_bonus: 20
+    high_risk_fast_penalty: 20
+    critical_quality_bonus: 35
+    hard_complexity_heavy_bonus: 55
+    very_hard_quality_bonus: 55
+    failure_penalty: 20
+    escalation_bonus: 100
+  model_signals:
+    ministral_reasoner: {task_type: [architecture, reasoning, critique, failure_analysis], complexity: [normal, hard], scope: [local, multi_file, module, repository]}
+    deepseek_fast_coder: {task_type: [code, bugfix, tests, utility], complexity: [trivial, normal], scope: [local]}
+    iquest_repo_coder: {task_type: [repo_exploration, multi_file_implementation, code, bugfix, refactor], complexity: [normal, hard], scope: [multi_file, module, repository]}
+    qwen35_heavy_fast: {task_type: [code, bugfix, refactor, multi_file_implementation], complexity: [hard], scope: [local, multi_file, module, repository]}
+    qwen27_heavy_quality: {task_type: [code, bugfix, refactor, multi_file_implementation], complexity: [very_hard, critical], scope: [local, multi_file, module, repository, cross_repository]}

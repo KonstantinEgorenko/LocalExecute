@@ -1,0 +1,56 @@
+schema_version: 1
+research_environment_v1:
+  browser:
+    headless: true
+    navigation_timeout_ms: 20000
+    action_timeout_ms: 10000
+    max_observation_chars: 18000
+    max_interactive_elements: 160
+    max_action_trail: 200
+    max_download_bytes: 52428800
+    allowed_schemes:
+    - http
+    - https
+    blocked_host_suffixes:
+    - .localhost
+    - .local
+    - .internal
+    blocked_hosts:
+    - localhost
+    - host.docker.internal
+    - metadata.google.internal
+  files:
+    max_file_bytes: 52428800
+    max_total_chars: 200000
+    max_fragment_chars: 12000
+    supported_extensions:
+    - .txt
+    - .md
+    - .json
+    - .csv
+    - .html
+    - .htm
+    - .pdf
+    - .docx
+    - .pptx
+    - .xlsx
+    - .png
+    - .jpg
+    - .jpeg
+    - .webp
+    - .wav
+    - .mp3
+    - .mp4
+    - .mkv
+    - .webm
+  media:
+    max_frames: 24
+    seconds_per_frame: 5
+    allow_semantic_inference_without_analyzer: false
+  evidence:
+    default_browser_tier: SECONDARY
+    downloaded_file_inherits_parent_tier: true
+  live_acceptance:
+    browser_url: https://example.com
+    require_playwright: true
+    require_chromium: true
