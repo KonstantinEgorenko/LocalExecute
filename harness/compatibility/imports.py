@@ -7,13 +7,15 @@ from .import_mapping import MODULES, PACKAGES, ENTRYPOINTS
 class LegacyLoader(importlib.abc.Loader):
     def __init__(self, name): self.name = name
     def create_module(self, spec):
-        if self.name not in MODULES: return None
-        module = importlib.import_module(MODULES[self.name])
-        self._metadata = {name: getattr(module, name) for name in ('__name__','__package__','__spec__','__loader__')}
-        return module
+        # Importlib initializes alias metadata on a fresh temporary module.
+        # Returning a live canonical module here corrupts its spec during reload.
+        return None
     def exec_module(self, module):
         if self.name in MODULES:
-            module.__dict__.update(self._metadata)
+            canonical = importlib.import_module(MODULES[self.name])
+            # _load_unlocked returns the final sys.modules entry after execution.
+            # Never assign alias metadata to the canonical object itself.
+            sys.modules[self.name] = canonical
             return
         recipe = PACKAGES[self.name]
         target = importlib.import_module(recipe['target'])

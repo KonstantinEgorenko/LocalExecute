@@ -549,3 +549,5 @@ include harness/compatibility/import_mapping.py
 include harness/compatibility/imports.py
 recursive-include docs *.md *.svg
 include tests/test_legacy_import_adapter.py
+include tests/compatibility_scenarios.py
+include tests/test_import_reload_safety.py

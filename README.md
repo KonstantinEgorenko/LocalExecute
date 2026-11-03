@@ -4,7 +4,7 @@ A local-first autonomous coding agent harness with durable execution, model rout
 
 LocalExecute coordinates local models, scoped repository tools, deterministic checks and durable task state. It separates producing a candidate from the authority to accept it. This experimental project does not establish broad real-model autonomous task reliability.
 
-[How it works](#how-it-works) В· [Quick start](#quick-start) В· [Architecture](docs/ARCHITECTURE.md) В· [Validation](docs/VALIDATION.md) В· [Security](docs/SECURITY.md) В· [Contributing](docs/CONTRIBUTING.md)
+[How it works](#how-it-works) | [Quick start](#quick-start) | [Architecture](docs/ARCHITECTURE.md) | [Validation](docs/VALIDATION.md) | [Security](docs/SECURITY.md) | [Contributing](docs/CONTRIBUTING.md)
 
 ## The Problem
 
@@ -71,7 +71,7 @@ Replace placeholders with absolute paths. The production launcher performs recon
 
 ## Architecture
 
-[Component boundaries and model execution](docs/ARCHITECTURE.md) В· [Task authority](docs/HOW_IT_WORKS.md) В· [Configuration](docs/CONFIGURATION.md) В· [Migration status](docs/MIGRATION.md)
+[Component boundaries and model execution](docs/ARCHITECTURE.md) | [Task authority](docs/HOW_IT_WORKS.md) | [Configuration](docs/CONFIGURATION.md) | [Migration status](docs/MIGRATION.md)
 
 ## Validation Status
 

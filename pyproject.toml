@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "localexecute"
 version = "0.1.0"
-description = "LocalExecute вЂ” Autonomous Agent Harness"
+description = "LocalExecute — Autonomous Agent Harness"
 requires-python = ">=3.11"
 license = "Apache-2.0"
 license-files = ["LICENSE", "NOTICE"]
