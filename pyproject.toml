@@ -27,4 +27,3 @@ namespaces = false
 
 [tool.setuptools.package-data]
 "harness.model_runtime" = ["bootstrap/*.py"]
-"harness.phase20v" = ["bootstrap/*.py"]
