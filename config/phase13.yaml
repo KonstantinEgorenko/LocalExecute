@@ -1,6 +1,0 @@
-schema_version: 1
-execution_v2:
-  max_worker_calls_per_attempt: 7
-  finalization_grace_max_calls: 1
-  require_successful_terminal_tool_for_grace: true
-  require_changed_paths_for_grace: true
