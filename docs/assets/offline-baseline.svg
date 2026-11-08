@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 235" width="720" height="235" role="img" aria-labelledby="title desc">
+  <title id="title">LocalExecute v0.1.0 public offline regression</title>
+  <desc id="desc">428 tests passed and 2 Windows symlink tests were intentionally skipped, for 430 tests collected.</desc>
+  <rect x="1" y="1" width="718" height="233" rx="20" fill="#111c2e" stroke="#465e7d" stroke-width="2"/>
+  <g font-family="system-ui, Segoe UI, sans-serif">
+    <text x="35" y="51" fill="#f1f5f9" font-size="25" font-weight="700">v0.1.0 public offline baseline</text>
+    <text x="35" y="80" fill="#adc0d8" font-size="17">430 collected · Windows x64 / CPython 3.12</text>
+    <rect x="35" y="103" width="650" height="17" rx="2" fill="#99b8e3"/>
+    <rect x="35" y="103" width="646.98" height="17" rx="2" fill="#63c8b5"/>
+    <rect x="36" y="144" width="13" height="13" rx="2" fill="#63c8b5"/>
+    <rect x="250" y="144" width="13" height="13" rx="2" fill="#99b8e3"/>
+    <text x="59" y="157" fill="#f1f5f9" font-size="21" font-weight="650">428 passed</text>
+    <text x="273" y="157" fill="#f1f5f9" font-size="21" font-weight="650">2 intentional skips</text>
+    <text x="35" y="203" fill="#adc0d8" font-size="17">Source: frozen public v0.1.0 regression</text>
+  </g>
+</svg>
