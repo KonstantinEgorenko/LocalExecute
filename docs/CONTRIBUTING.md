@@ -1,3 +1,7 @@
 # Contributing
 
-Keep changes small and preserve persisted contracts. Add negative tests for authority/resource failures. Use deterministic fake physical backends for tests; never make default pytest require live models. Run affected suites and packaging checks, disclose unverified gates and avoid changing expected outcomes to hide failures. Do not submit secrets,private experiment captures,model weights or private benchmark oracles. Discuss incompatible API changes explicitly before deleting compatibility.
+Use the [qualified Windows setup](INSTALLATION.md). For bugs, open an [issue](https://github.com/KonstantinEgorenko/LocalExecute/issues) with the public revision, a minimal reproduction, expected and observed behavior, and sanitized evidence. Use the private reporting route described in [security](SECURITY.md) for vulnerabilities.
+
+Keep changes scoped and explain which policy or invariant they affect. Use deterministic transport for ordinary offline tests. Update related documentation and diagrams, and include the validation you actually ran. Keep machine paths, model weights, tokens, private evaluator fixtures and raw Mission evidence out of contributions.
+
+The project uses [Apache-2.0](../LICENSE). See [NOTICE](../NOTICE) for attribution.

@@ -30,4 +30,4 @@ Semantic YAML files are authoritative. Historical filenames resolve to the seman
 
 ## Release policy
 
-This branch does not replace v0.1.0 or publish a new release. Because the filesystem startup contract intentionally changes, recommend **v0.2.0** with this migration notice after independent acceptance, rather than silently shipping it as a fully backward-compatible patch. Persisted state field spellings are not renamed for branding.
+The published v0.1.0 tag and distributions retain the original layout. The development line still needs a version decision before the next release. Because the filesystem startup contract intentionally changes, recommend **v0.2.0** with this migration notice after independent acceptance, rather than silently shipping it as a fully backward-compatible patch. Persisted state field spellings are not renamed for branding.

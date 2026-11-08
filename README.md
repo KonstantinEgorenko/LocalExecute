@@ -1,107 +1,87 @@
 # LocalExecute
 
-A local-first autonomous coding agent harness with durable execution, model routing, and verification-driven acceptance.
+**Local-first autonomous coding with durable execution and verification-driven acceptance.**
 
-LocalExecute coordinates local models, scoped repository tools, deterministic checks and durable task state. It separates producing a candidate from the authority to accept it. This experimental project does not establish broad real-model autonomous task reliability.
+LocalExecute turns a coding objective into bounded work in a separate Git worktree. It coordinates local models for planning, implementation and review, then uses configured checks and a Judge verdict to decide whether the candidate can be accepted. The public v0.1.0 prerelease is experimental, with offline qualification on Windows x64 and CPython 3.12.
 
-[How it works](#how-it-works) | [Quick start](#quick-start) | [Architecture](docs/ARCHITECTURE.md) | [Validation](docs/VALIDATION.md) | [Security](docs/SECURITY.md) | [Contributing](docs/CONTRIBUTING.md)
+[Overview](#why-localexecute) | [Architecture](#architecture) | [Quick Start](#quick-start) | [Configuration](docs/CONFIGURATION.md) | [Examples](docs/EXAMPLES.md) | [Validation](#validation) | [Security](#safety)
 
-## The Problem
+![LocalExecute workflow from a user objective through planning, scoped Git worktree execution and verified acceptance](docs/assets/workflow.svg)
 
-A local LLM can generate code. Completing a coding task also requires authorized edits, reproducible verification, correct candidate identity, bounded failure handling and a truthful decision about completion.
+## Why LocalExecute?
 
-## The Approach
+An LLM can generate a patch. Completing a software task also means identifying the exact revision, limiting what the worker can change, running the required checks and making an auditable acceptance decision. LocalExecute keeps those responsibilities in the harness, along with durable state, rule-based model routing and bounded recovery.
 
-The harness keeps task authority outside model output. Rule/score routing selects eligible profiles; workers use controlled Git worktrees. Fresh deterministic verification is mandatory. Critic supplies advisory evidence; Judge cannot override failed verification. Durable state supports bounded recovery and replanning. Shared locks serialize heavy GPU work. Optional research requires separate providers.
+## How it works
 
-## Core Capabilities
+1. **Plan.** The CLI starts the guarded launcher. Mission control persists the objective and checks whether the plan can be executed.
+2. **Route and edit.** Routing selects a model and execution profile. The worker uses scoped tools against a candidate Git worktree.
+3. **Verify and review.** Required deterministic checks run against the candidate. The Critic provides advisory review. A valid Judge verdict and completion gates control acceptance.
+4. **Complete or stop.** The controller writes durable status and a final report on completion. Failures can trigger bounded recovery or replanning. Accepted candidates are retained for inspection and manual integration.
 
-- Durable Mission, scheduler and artifact state.
-- Explicit model profiles and resource-aware routing.
-- Scoped read/edit tools with content identity checks.
-- Candidate-bound verification and review evidence.
-- Bounded recovery, retained candidates and no automatic merge.
-- Local model lifecycle, placement admission and shared GPU ownership.
+[Full workflow and recovery diagram](docs/HOW_IT_WORKS.md)
 
-## How It Works
+## Capabilities
 
-```mermaid
-flowchart TD
- U[User task] --> CLI[Public CLI]
- CLI --> M[Durable Mission and Lead plan]
- M --> R[Resource-aware Router]
- R --> W[Worker and authorized tools]
- W --> G[Candidate Git worktree]
- G --> V[Fresh deterministic verification]
- V -->|pass| C[Advisory Critic]
- C --> J[Strict Judge]
- J -->|ACCEPT plus all completion invariants| A[Accepted artifact and durable completion]
- V -->|failure| B[Bounded recovery]
- J -->|REPLAN or rejection| B
- B -->|authorized revision| M
- B -->|limits or missing authority| X[Blocked or failed]
-```
+| Area | What is implemented | Qualification |
+| --- | --- | --- |
+| Execution | Durable Missions, planning, scoped tools, candidate worktrees and bounded recovery | Native SIMPLE and REPLAN lifecycle exercised offline |
+| Models | Logical Lead, Worker, Critic and Judge roles, resource-aware routing and shared runtime ownership | Deterministic transport tests. Live startup and model behavior depend on the host and registry |
+| Acceptance | Deterministic verification, advisory Critic, strict Judge and durable completion | Offline acceptance gates. No public live task success rate |
+| Optional integrations | Research and sandbox components | Research primitives tested offline. Docker isolation qualified separately |
 
-## Quick Start
+## Requirements
 
-Qualified platform: Windows x64, CPython 3.12. Install Git; Docker Desktop is required only for separately configured Docker isolation. Models, Ollama and GPU drivers are external prerequisites.
+| Requirement | When needed |
+| --- | --- |
+| Windows x64, CPython 3.12, Git | Qualified source install and core workflows |
+| Native Ollama and compatible local model tags | Live production startup and inference |
+| Adequate available RAM and supported GPU placement | Live model admission. Context, quantization and resident set affect fit |
+| Docker Desktop, with WSL 2 if using its WSL backend | Separate Docker sandbox workflows |
+| Browser or search services | Only for explicitly configured optional research integrations |
+
+## Quick start
+
+From PowerShell with Git and CPython 3.12 installed:
 
 ```powershell
+git clone https://github.com/KonstantinEgorenko/LocalExecute.git
+Set-Location LocalExecute
+git --version
+py -3.12 --version
 py -3.12 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install --require-hashes -r requirements/dev-win-py312.lock
 .\.venv\Scripts\python.exe -m pip install --no-build-isolation --no-deps .
+.\.venv\Scripts\localexecute.exe --version
 .\.venv\Scripts\localexecute.exe --help
+.\.venv\Scripts\python.exe -m harness.mission_runner --help
 ```
 
-Use a trusted Git-backed control checkout, a different trusted target Git repository and a dedicated state directory outside the target. Configure existing local models and a shared protected absolute GPU/runtime lock namespace. Never use independent per-project GPU locks.
+For live setup, follow the [Windows installation walkthrough](docs/INSTALLATION.md). It covers [Ollama and exact model tags](docs/OLLAMA_SETUP.md), shared lock provisioning, a separate trusted Git target, a dedicated state directory and a read-only preflight. Then review the optional guarded Mission command and decide whether to execute it.
 
-Read-only readiness (does not qualify model placement or the full launcher):
-
-```powershell
-.\.venv\Scripts\python.exe -m harness.mission_runner --root "CONTROL_CHECKOUT" --workspace "TARGET_CHECKOUT" --state-root "OWNED_STATE" --profile production --mission-id "my-task" --goal "Update the implementation and add regression tests." --preflight
-```
-
-Production invocation below is an operator template, **not a validated successful live worked example**:
-
-```powershell
-.\.venv\Scripts\localexecute.exe run --root "CONTROL_CHECKOUT" --module harness.mission_runner -- --root "CONTROL_CHECKOUT" --workspace "TARGET_CHECKOUT" --state-root "OWNED_STATE" --profile production --mission-id "my-task" --goal "Update the implementation and add regression tests." --execute
-```
-
-Replace placeholders with absolute paths. The production launcher performs reconciliation and inventory-wide calibration **before** forwarding arguments, including `--preflight`; use the direct read-only route above for initial readiness. See [Getting started](docs/GETTING_STARTED.md).
+The direct Mission preflight checks configuration, Git and server reachability without loading models. The production launcher can reconcile residency and calibrate the effective worker inventory **before** processing Mission arguments. Treat `--execute` as permission to call real models and run generated trusted code on the host.
 
 ## Architecture
 
-[Component boundaries and model execution](docs/ARCHITECTURE.md) | [Task authority](docs/HOW_IT_WORKS.md) | [Configuration](docs/CONFIGURATION.md) | [Migration status](docs/MIGRATION.md)
+| Component | Responsibility |
+| --- | --- |
+| Mission, workflow and scheduler | Persist objectives, dependency state, execution progress and completion |
+| Router, executor and model runtime | Select bounded profiles and coordinate physical Ollama calls |
+| Workspace and worktree | Authorize tool paths and isolate candidate edits from the target checkout |
+| Verification, Critic and Judge | Validate candidate evidence, review changes and decide acceptance |
 
-## Validation Status
+[System map](docs/ARCHITECTURE.md) · [Migration and descendant bootstrap](docs/MIGRATION.md) · [Model routing](docs/MODEL_ROUTING.md) · [Resources](docs/RESOURCE_MANAGEMENT.md) · [Verification](docs/VERIFICATION.md)
 
-![Public v0.1.0 offline tests: 428 passed, two intentional skips](docs/assets/qualification.svg)
+## Validation
 
-These are baseline release tests, not results of this unfinished refactor. Offline SIMPLE execution and REPLAN recovery were qualified with deterministic physical backends. The first live qualification stopped at preflight; the next stopped during startup calibration at the experiment safety threshold. No real-model Mission completion was proven. Subsequent analysis established partial attribution, not a proven model-specific OOM. See [Validation](docs/VALIDATION.md).
+**v0.1.0 public offline baseline: 428 passed, 2 intentional skips.** The release used deterministic model transport and separately qualified Docker isolation. See the [validation record and capability matrix](docs/VALIDATION.md).
 
-## Safety and Limitations
+## Safety
 
-Native verification executes **trusted code on the host**. Git worktrees and process ownership are not a malicious-code sandbox. Docker isolation primitives are separately qualified and do not imply automatic Docker routing. Mandatory private V1 independent evaluation is unavailable and fails closed. Optional integrations and other platforms require separate qualification. No broad live-model success rate is established.
+Native verification runs trusted code under your host account. Git worktrees and Windows Job ownership provide isolation of changes and process lifecycle control. Treat neither as a sandbox for malicious code. Docker primitives are separate from the default native verification path. Acceptance requires evidence bound to the exact candidate. The private independent evaluator is absent from the public distribution, and an explicit requirement for it blocks acceptance.
 
-## Project Structure
+[Security and trust boundaries](docs/SECURITY.md) · [Docker setup](docs/DOCKER_SETUP.md) · [Troubleshooting](docs/TROUBLESHOOTING.md) · [FAQ](docs/FAQ.md)
 
-Canonical implementations:
+## Contributing and license
 
-```text
-harness/
-  mission/ workflow/ recovery/
-  router/ executor/ observability/
-  workspace/ worktree/ verification/
-  critic/ judge/ model_runtime/
-  gpu_acceleration/ runtime_resources/
-  external_evidence/ compatibility/
-localexecute/
-config/
-docs/
-```
-
-Historical imports are handled by a centralized compatibility adapter; no physical legacy package directories are included. The old filesystem bootstrap path is intentionally retired: [Migration instructions](docs/MIGRATION.md).
-
-## Contributing / License
-
-Read [Contributing](docs/CONTRIBUTING.md) and [Security](docs/SECURITY.md). Apache-2.0 with [LICENSE](LICENSE) and [NOTICE](NOTICE). Created by Konstantin Egorenko.
+Created by Konstantin Egorenko. Distributed under [Apache-2.0](LICENSE). See [NOTICE](NOTICE) and the [contributor guide](docs/CONTRIBUTING.md).
