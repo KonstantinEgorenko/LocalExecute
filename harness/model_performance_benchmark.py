@@ -435,7 +435,7 @@ def render(report):
     for model in report["models"]:
         pid = model["profile"]["profile_id"]
         if not model["workloads"]:
-            lines.append(f"| {pid} | Р Р†Р вЂљРІР‚Сњ | {model['status']} | Р Р†Р вЂљРІР‚Сњ | Р Р†Р вЂљРІР‚Сњ | Р Р†Р вЂљРІР‚Сњ | Р Р†Р вЂљРІР‚Сњ | Р Р†Р вЂљРІР‚Сњ |")
+            lines.append(f"| {pid} | N/A | {model['status']} | N/A | N/A | N/A | N/A | N/A |")
         for w in model["workloads"]:
             stats = w.get("warm_statistics", {})
             generation = stats.get("generation_tokens_per_second") or {}

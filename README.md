@@ -70,7 +70,7 @@ The direct Mission preflight checks configuration, Git and server reachability w
 | Workspace and worktree | Authorize tool paths and isolate candidate edits from the target checkout |
 | Verification, Critic and Judge | Validate candidate evidence, review changes and decide acceptance |
 
-[System map](docs/ARCHITECTURE.md) · [Model routing](docs/MODEL_ROUTING.md) · [Resources](docs/RESOURCE_MANAGEMENT.md) · [Verification](docs/VERIFICATION.md)
+[System map](docs/ARCHITECTURE.md) · [Migration and descendant bootstrap](docs/MIGRATION.md) · [Model routing](docs/MODEL_ROUTING.md) · [Resources](docs/RESOURCE_MANAGEMENT.md) · [Verification](docs/VERIFICATION.md)
 
 ## Validation
 

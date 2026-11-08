@@ -1,6 +1,6 @@
 # Architecture
 
-LocalExecute separates durable control, physical model execution, candidate mutation and acceptance. This guide describes the public v0.1.0 source layout, where semantic packages and some historical paths coexist.
+LocalExecute separates durable control, physical model execution, candidate mutation and acceptance. This guide describes the semantic package layout. See the [migration guide](MIGRATION.md) for historical imports and descendant startup.
 
 ```mermaid
 flowchart TD

@@ -14,4 +14,4 @@ Use a trusted Git checkout as the control root. Keep the target repository and M
 
 The production launcher overlays the physical Worker URL with the Lead URL. A measured runtime profile can overlay worker placement. Inspect the effective profile, context and model tags rather than relying on registry labels alone. Change one layer deliberately and recheck it. See [Ollama setup](OLLAMA_SETUP.md) and [resource management](RESOURCE_MANAGEMENT.md).
 
-The public v0.1.0 tree has semantic packages and historical compatibility files. This guide links to the semantic files present on main. The separate layout refactor is under review in [PR #1](https://github.com/KonstantinEgorenko/LocalExecute/pull/1). Its layout and startup-path changes are outside this documentation update.
+The semantic configuration files are authoritative. See the [migration guide](MIGRATION.md) for legacy configuration names and the supported descendant bootstrap.
