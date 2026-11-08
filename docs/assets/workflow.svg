@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 300" width="840" height="300" role="img" aria-labelledby="title desc">
+  <title id="title">LocalExecute mission workflow</title>
+  <desc id="desc">A user objective is planned, executed through scoped tools in a Git worktree, then verified and reviewed. Acceptance produces a durable report. Failures can trigger bounded recovery.</desc>
+  <rect x="1" y="1" width="838" height="298" rx="24" fill="#111c2e" stroke="#465e7d" stroke-width="2"/>
+  <g font-family="system-ui, Segoe UI, sans-serif">
+    <text x="40" y="54" fill="#f1f5f9" font-size="28" font-weight="700">From objective to accepted candidate</text>
+    <text x="40" y="84" fill="#adc0d8" font-size="18">Durable Mission · Scoped changes · Evidence-based acceptance</text>
+    <g fill="#1b2c45" stroke="#52749c" stroke-width="1.5">
+      <rect x="40" y="115" width="224" height="112" rx="13"/>
+      <rect x="308" y="115" width="224" height="112" rx="13"/>
+      <rect x="576" y="115" width="224" height="112" rx="13" fill="#173536" stroke="#5b9e98"/>
+    </g>
+    <g fill="#8abfff" font-size="15" font-weight="700" letter-spacing="1.7">
+      <text x="58" y="144">01 / PLAN</text>
+      <text x="326" y="144">02 / EXECUTE</text>
+      <text x="594" y="144" fill="#87ded0">03 / ACCEPT</text>
+    </g>
+    <g fill="#f1f5f9" font-size="23" font-weight="650">
+      <text x="58" y="178">Feasible plan</text>
+      <text x="326" y="178">Scoped edits</text>
+      <text x="594" y="178">Verified result</text>
+    </g>
+    <g fill="#c2d2e6" font-size="17">
+      <text x="58" y="204">CLI and Mission control</text>
+      <text x="326" y="204">Worker and Git worktree</text>
+      <text x="594" y="204">Checks, Critic and Judge</text>
+    </g>
+    <g fill="none" stroke="#a4bdd8" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M276 171h18m-7-7 7 7-7 7"/>
+      <path d="M544 171h18m-7-7 7 7-7 7"/>
+    </g>
+    <path d="M40 247h760" stroke="#405773"/>
+    <text x="40" y="276" fill="#b7c9df" font-size="18">Bounded recovery on failure</text>
+    <text x="800" y="276" text-anchor="end" fill="#87ded0" font-size="18">Durable report on completion</text>
+  </g>
+</svg>
