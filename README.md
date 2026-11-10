@@ -72,6 +72,26 @@ The direct Mission preflight checks configuration, Git and server reachability w
 
 [System map](docs/ARCHITECTURE.md) · [Migration and descendant bootstrap](docs/MIGRATION.md) · [Model routing](docs/MODEL_ROUTING.md) · [Resources](docs/RESOURCE_MANAGEMENT.md) · [Verification](docs/VERIFICATION.md)
 
+## Staging benchmark: LocalExecute vs mini-SWE-agent (November 2026)
+
+An **experimental, eight-task, single-attempt** comparison of small, single-file Python bug fixes using the same locally served, quantized **DeepSeek-Coder-V2 16B** model. These results measure the *specific staging agent configurations*, not the general capabilities of either project or the published LocalExecute v0.1.0 release.
+
+| Metric | LocalExecute Worker v0.1 | mini-SWE-agent equal | mini-SWE-agent native |
+| --- | ---: | ---: | ---: |
+| Model generations permitted per task | 4 | 4 | 8 |
+| **Successful completed tasks** | **3/8 (37.5%)** | **0/8 (0%)** | **0/8 (0%)** |
+| Independently validated patches (including unsubmitted) | **3/8** | 1/8 | 1/8 |
+| Actual model generations | 25 | 32 | 57 |
+| Generated tokens (total) | **3,029** | 5,587 | 8,588 |
+| Total server inference time | **213.41 s** | 387.51 s | 668.36 s |
+| Median server inference time per task | **27.52 s** | 41.31 s | 88.20 s |
+| Effective output rate (generated tokens / total server inference seconds) | 14.19 tokens/s | 14.42 tokens/s | 12.85 tokens/s |
+| Verified owned model unloads | 8/8 | 8/8 | 8/8 |
+
+mini-SWE-agent produced a correct patch for `boundary-seat` in both modes but did not formally submit it. All three configurations used eight frozen tasks, temperature 0, context 4,096 and a response cap of 768 output tokens. **The equal mode compares a four-generation budget; native permits eight and is not a budget-matched comparison.** The interfaces also differ: SHA-guarded `READ_TEXT`/`WRITE_TEXT` with pre-write tests versus containerized Bash and post-run validation. GPU offload was limited (`num_gpu=1`); observed model GPU residency (~319 MiB) is **not** total/peak VRAM use. The study is too small to establish general superiority.
+
+[Full benchmark methodology, per-task outcomes, token throughput and resource measurements](docs/benchmarks/localexecute-vs-mini-swe-agent.md).
+
 ## Validation
 
 **v0.1.0 public offline baseline: 428 passed, 2 intentional skips.** The release used deterministic model transport and separately qualified Docker isolation. See the [validation record and capability matrix](docs/VALIDATION.md).
